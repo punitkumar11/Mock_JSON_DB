@@ -6,6 +6,8 @@ const {readData, writeData} = require('../utils/file');
 async function createUser(req, res) {
     try{
 
+        console.log(req, body);
+
         //read file contents
         const data = await readData();
         //check lenght on users object and minus 1
