@@ -1,3 +1,22 @@
 {
-    "users": []
+  "users": [
+    {
+      "id": 1,
+      "username": "Punit",
+      "first_name": "Punit",
+      "email": "punit@rdpolytech.ca"
+    },
+    {
+      "id": 2,
+      "username": "wedf",
+      "first_name": "ds",
+      "email": "jai@gmail.com"
+    },
+    {
+      "id": 3,
+      "username": "wedf",
+      "first_name": "ds",
+      "email": "jai@gmail.com"
+    }
+  ]
 }
