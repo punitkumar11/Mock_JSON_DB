@@ -1,4 +1,3 @@
-
 const fs = require('fs').promises;
 const filePath = './database.json';
 const {readData, writeData} = require('../utils/file');
@@ -38,19 +37,60 @@ async function createUser(req, res){
 } 
 
 //function to edit user
-async function editUser(req, res){
+async function updateUser(req, res){
     try {
-        
+         console.log(req.params.id);
+        //fetch the data from database.json
+        const data = await readData();
+        //function to find user by id
+        const user = data.users.find(user => user.id === parseInt(req.params.id));
+
+        //check if user exists.  Then, update fields accordingly.
+        if(user){
+
+          //update fields from the form
+          user.username = req.body.new_username || user.username;
+          user.first_name = req.body.new_first_name || user.first_name;
+          user.email = req.body.new_email || user.email;
+
+          //writing the changes to database.json
+          await writeData(data);
+
+          //refresh the page
+          res.redirect('/home');
+        } else {
+          res.status(404).json('User not found.  Please try again');
+        }
+
     } catch (error) {
-        
+        res.status(500).json('Internal Server Error');
     }
 } 
 
 //function to delete user
 async function deleteUser(req, res){
     try {
+     
+        //fetch the data from database.json
+        const data = await readData();
+        //function to find user by id
+        const user = data.users.find(user => user.id === parseInt(req.params.id));
+
+        //check if user exists.  Then, update fields accordingly.
+        if(user){
+          //splice (start, itemcount to delete)
+          data.users.splice(user, 1);
+          await writeData(data);
+
+          res.status(200).json("user successfully deleted");}
+
+          else {
+            res.status(404).json("User not found");
+
+          }
         
     } catch (error) {
+      res.status(500).json('Internal server error');
         
     }
 } 
@@ -58,6 +98,6 @@ async function deleteUser(req, res){
 
 module.exports = {
     createUser,
-    editUser,
+    updateUser,
     deleteUser,
 }
